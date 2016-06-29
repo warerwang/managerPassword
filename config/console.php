@@ -10,6 +10,8 @@ $config = [
     'basePath' => dirname(__DIR__),
     'bootstrap' => ['log'],
     'controllerNamespace' => 'app\commands',
+    'language' => 'zh-CN',
+    'sourceLanguage'=>'en_us',
     'components' => [
         'cache' => [
             'class' => 'yii\caching\FileCache',
@@ -23,8 +25,23 @@ $config = [
             ],
         ],
         'db' => $db,
+        'i18n' => [
+            'translations' => [
+                '*' => [
+                    'class' => 'yii\i18n\PhpMessageSource',
+                    'basePath' => '@app/messages',
+                    'sourceLanguage' => 'en',
+                    //                    'fileMap' => [
+                    //                        'app' => 'app.php',
+                    //                        'app/error' => 'error.php',
+                    //                    ],
+                ]
+
+            ],
+        ],
     ],
     'params' => $params,
+
     /*
     'controllerMap' => [
         'fixture' => [ // Fixture generation command line.

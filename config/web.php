@@ -7,6 +7,7 @@ $config = [
     'basePath' => dirname(__DIR__),
     'bootstrap' => ['log'],
     'language' => 'zh-CN',
+    'sourceLanguage'=>'en_us',
     'components' => [
         'request' => [
             // !!! insert a secret key in the following (if it is empty) - this is required by cookie validation
@@ -47,6 +48,20 @@ $config = [
             ],
         ],
         */
+        'i18n' => [
+            'translations' => [
+                '*' => [
+                    'class' => 'yii\i18n\PhpMessageSource',
+                    'basePath' => '@app/messages',
+                    'sourceLanguage' => 'en',
+//                    'fileMap' => [
+//                        'app' => 'app.php',
+//                        'app/error' => 'error.php',
+//                    ],
+                ]
+
+            ],
+        ],
     ],
     'params' => $params,
 ];
