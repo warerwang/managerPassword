@@ -14,6 +14,8 @@ use Yii;
  * @property string $encryptPassword
  * @property string $webLink
  * @property string $description
+ * @property string $created
+ * @property string $updated
  */
 class PasswordBase extends \yii\db\ActiveRecord
 {
@@ -34,6 +36,7 @@ class PasswordBase extends \yii\db\ActiveRecord
             [['uid', 'account', 'name', 'encryptPassword'], 'required'],
             [['uid'], 'integer'],
             [['encryptPassword'], 'string'],
+            [['created', 'updated'], 'safe'],
             [['account', 'name', 'webLink', 'description'], 'string', 'max' => 255],
         ];
     }
@@ -51,6 +54,8 @@ class PasswordBase extends \yii\db\ActiveRecord
             'encryptPassword' => Yii::t('model', 'Encrypt Password'),
             'webLink' => Yii::t('model', 'Web Link'),
             'description' => Yii::t('model', 'Description'),
+            'created' => Yii::t('model', 'Created'),
+            'updated' => Yii::t('model', 'Updated'),
         ];
     }
 }

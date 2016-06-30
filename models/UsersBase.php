@@ -13,6 +13,8 @@ use Yii;
  * @property string $salt
  * @property string $token
  * @property string $publicKey
+ * @property string $created
+ * @property string $updated
  */
 class UsersBase extends \yii\db\ActiveRecord
 {
@@ -30,8 +32,9 @@ class UsersBase extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['email', 'password', 'salt', 'token', 'publicKey'], 'required'],
+            [['email', 'password', 'salt', 'token'], 'required'],
             [['publicKey'], 'string'],
+            [['created', 'updated'], 'safe'],
             [['email'], 'string', 'max' => 255],
             [['password', 'token'], 'string', 'max' => 32],
             [['salt'], 'string', 'max' => 6],
@@ -50,6 +53,8 @@ class UsersBase extends \yii\db\ActiveRecord
             'salt' => Yii::t('model', 'Salt'),
             'token' => Yii::t('model', 'Token'),
             'publicKey' => Yii::t('model', 'Public Key'),
+            'created' => Yii::t('model', 'Created'),
+            'updated' => Yii::t('model', 'Updated'),
         ];
     }
 }

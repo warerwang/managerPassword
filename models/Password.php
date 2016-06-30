@@ -45,6 +45,25 @@ class Password extends PasswordBase
         return $dataProvider;
     }
 
+    public function searchByKeyword($k)
+    {
+        $query = self::find();
+        $dataProvider = new ActiveDataProvider(
+            [
+                'query'      => $query,
+                'pagination' => [
+                    'pageSize' => 10,
+                ],
+            ]
+        );
+        $query->andFilterWhere(['uid' => $this->uid]);
+        $query->andFilterWhere(['like', 'name', $k]);
+        $query->orFilterWhere(['like', 'account', $k]);
+        $query->orFilterWhere(['like', 'webLink', $k]);
+
+        return $dataProvider;
+    }
+
     public function beforeValidate ()
     {
         if(parent::beforeValidate()){
