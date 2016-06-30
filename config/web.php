@@ -40,14 +40,12 @@ $config = [
             ],
         ],
         'db' => require(__DIR__ . '/db.php'),
-        /*
         'urlManager' => [
             'enablePrettyUrl' => true,
-            'showScriptName' => false,
+            'showScriptName' => YII_DEBUG,
             'rules' => [
             ],
         ],
-        */
         'i18n' => [
             'translations' => [
                 '*' => [
@@ -62,6 +60,9 @@ $config = [
 
             ],
         ],
+        'password' => [
+            'class' => 'app\components\Password',
+        ]
     ],
     'params' => $params,
 ];

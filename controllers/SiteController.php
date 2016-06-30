@@ -5,6 +5,7 @@ namespace app\controllers;
 use app\models\Password;
 use app\models\UsersBase;
 use Yii;
+use yii\base\Exception;
 use yii\base\Model;
 use yii\filters\AccessControl;
 use yii\web\Controller;
@@ -95,19 +96,10 @@ class SiteController extends Controller
             }else{
                 $pkContent = Yii::$app->request->post('pkey');
             }
-            if(!empty($pkContent)){
-                $dn = [];
-                $pkRes = openssl_get_privatekey($pkContent);
-                $res_csr = openssl_csr_new($dn, $pkRes);
-                $ndays = 365;
-                $res_cert = openssl_csr_sign($res_csr, null, $pkRes, $ndays);
-                openssl_x509_export($res_cert, $str_cert);
-                $res_pubkey = openssl_pkey_get_public($str_cert);
-                $keyData = openssl_pkey_get_details($res_pubkey);
-                $pubKey = $keyData['key'];
-            }else{
-
+            if(empty($pkContent)){
+                throw new Exception();
             }
+            $pubKey = Yii::$app->password->GeneratePublicKey($pkContent);
         }
         return $this->render('public-key', ['pubKey' => $pubKey]);
     }
@@ -120,24 +112,27 @@ class SiteController extends Controller
         if(Yii::$app->request->isPost){
             $file = UploadedFile::getInstanceByName('pkeyFile');
             $pkContent = file_get_contents($file->tempName);
-            $pkeyRes = openssl_get_privatekey($pkContent);
-            openssl_private_decrypt(base64_decode($model->encryptPassword) , $password, $pkeyRes);
+            $password = Yii::$app->password->DecryptWithPrivateKey($model->encryptPassword, $pkContent);
         }
         return $this->render('decrypt-password', ['password' => $password]);
     }
 
     public function actionGeneratePrivateKey ()
     {
-        $pkeyRes = openssl_pkey_new();
-        //私钥
-        openssl_pkey_export($pkeyRes, $pkey);
-
+        $pkey = Yii::$app->password->GeneratePrivateKey();
         return $this->render('private-key', ['pkey' => $pkey]);
     }
 
     public function actionDownloadKey ($name, $key)
     {
         return Yii::$app->response->sendContentAsFile($key, $name);
+    }
+
+    public function actionDeleteAccount ($id)
+    {
+        $password = Password::findOne($id);
+        $password->delete();
+        return $this->goBack(['site/manager']);
     }
 
     public function actionLogin()

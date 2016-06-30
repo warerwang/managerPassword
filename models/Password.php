@@ -7,11 +7,24 @@
  */
 namespace app\models;
 
+use Yii;
 use yii\data\ActiveDataProvider;
 
 class Password extends PasswordBase
 {
     public $password;
+
+    public function rules ()
+    {
+        $rules = parent::rules();
+        return array_merge(
+            [
+                ['password', 'safe']
+            ],
+            $rules
+        );
+    }
+
     public function search($params)
     {
         $query = self::find();
@@ -37,9 +50,7 @@ class Password extends PasswordBase
         if(parent::beforeValidate()){
             /** @var User $user */
             $user = $this->user;
-            $pubKeyRes = openssl_get_publickey($user->publicKey);
-            openssl_public_encrypt($this->password, $encryptedPassword, $pubKeyRes);
-            $this->encryptPassword = base64_encode($encryptedPassword);
+            $this->encryptPassword = Yii::$app->password->EncryptWithPublicKey($this->password, $user->publicKey);
             return true;
         }
         return false;

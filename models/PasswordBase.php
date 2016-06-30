@@ -31,7 +31,7 @@ class PasswordBase extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['uid', 'account', 'name', 'encryptPassword', 'webLink', 'description'], 'required'],
+            [['uid', 'account', 'name', 'encryptPassword'], 'required'],
             [['uid'], 'integer'],
             [['encryptPassword'], 'string'],
             [['account', 'name', 'webLink', 'description'], 'string', 'max' => 255],
