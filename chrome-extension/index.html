@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+  <link rel="stylesheet" href="vendor/bower/bootstrap/dist/css/bootstrap.min.css">
+  <script type="text/javascript" src="vendor/bower/jquery/dist/jquery.js"></script>
+  <script type="text/javascript" src="vendor/bower/bootstrap/dist/js/bootstrap.min.js" ></script>
+  <script type="text/javascript" src="vendor/bower/angular/angular.min.js"></script>
+  <script type="text/javascript" src="vendor/bower/angular-local-storage/dist/angular-local-storage.min.js"></script>
+  <script type="text/javascript" src="vendor/bower/ng-clipboard/dist/ng-clipboard.js"></script>
+  <script type="text/javascript" src="vendor/bower/jsencrypt/bin/jsencrypt.min.js"></script>
+  <script type="text/javascript" src="js/app.js"></script>
+  <script type="text/javascript">
+    window.onError=function(){
+      return true;
+    };
+  </script>
+  <style type="text/css">
+    body{
+      width: 480px;
+    }
+    #login{
+      padding: 10px;
+    }
+    #main{
+      padding: 0 5px;
+    }
+    a[ng-click]{
+      cursor: pointer;
+    }
+    .nav-tabs{
+      margin-bottom: 5px;;
+    }
+  </style>
+</head>
+<body ng-app="chrome">
+<div id="main" ng-controller="MainCtrl" ng-if="!isGuest">
+  <ul class="nav nav-tabs" role="tablist">
+    <li role="presentation" class="active"><a href="#account-list" aria-controls="home" role="tab" data-toggle="tab">账号列表</a></li>
+    <li role="presentation"><a href="#create-account" aria-controls="profile" role="tab" data-toggle="tab">添加账号</a></li>
+    <li role="presentation"><a href="#generate-password" aria-controls="messages" role="tab" data-toggle="tab">生成随机密码</a></li>
+    <li role="presentation"><a href="#private-key" role="tab" data-toggle="tab">设置私钥</a></li>
+    <li role="presentation"><a ng-click="signOut()" role="tab" data-toggle="tab">退出</a></li>
+  </ul>
+  <!-- Tab panes -->
+  <div class="tab-content">
+    <div role="tabpanel" class="tab-pane active" id="account-list">
+      <div class="form-group">
+        <input type="text" class="form-control" placeholder="关键字" ng-model="keyword" ng-keyup="search()">
+      </div>
+      <table class="table table-hover" ng-if="accounts.length > 0">
+        <thead>
+        <tr>
+          <th>名称</th>
+          <th>网址</th>
+          <th>账号</th>
+          <th></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr ng-repeat="account in accounts">
+          <td>{{account.name}}</td>
+          <td><a href="#" title="复制网址" ng-copy="account.webLink">{{account.webLink}}</a></td>
+          <td><a href="#" title="复制账号" ng-copy="account.account">{{account.account}}</a></td>
+          <td>
+            <button class="btn btn-xs" ng-copy="getPassword(account.encryptPassword)">复制密码</button>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+      <div ng-if="accounts.length == 0">没有找到账号</div>
+    </div>
+    <div role="tabpanel" class="tab-pane" id="create-account">
+      <div class="alert alert-danger" role="alert" ng-if="error">{{error}}</div>
+      <form class="form-horizontal">
+        <div class="form-group">
+          <label for="new-account-input1" class="col-sm-2 control-label">名称</label>
+          <div class="col-sm-10">
+            <input type="text" class="form-control" id="new-account-input1" placeholder="名称" ng-model="newAccount.name">
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="new-account-input2" class="col-sm-2 control-label">网址</label>
+          <div class="col-sm-10">
+            <input type="text" class="form-control" id="new-account-input2" placeholder="网址" ng-model="newAccount.webLink">
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="new-account-input3" class="col-sm-2 control-label">账号</label>
+          <div class="col-sm-10">
+            <input type="text" class="form-control" id="new-account-input3" placeholder="账号" ng-model="newAccount.account">
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="new-account-input4" class="col-sm-2 control-label">密码</label>
+          <div class="col-sm-10">
+            <input type="password" class="form-control" id="new-account-input4" placeholder="密码" ng-model="newAccount.password">
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="new-account-input4" class="col-sm-2 control-label">描述</label>
+          <div class="col-sm-10">
+            <textarea class="form-control" rows="3" ng-model="newAccount.description"></textarea>
+          </div>
+        </div>
+        <div class="form-group">
+          <div class="col-sm-offset-2 col-sm-10">
+            <button type="submit" class="btn btn-default" ng-click="saveAccount()">保存</button>
+          </div>
+        </div>
+      </form>
+    </div>
+    <div role="tabpanel" class="tab-pane" id="generate-password">
+      <div class="input-group">
+        <input type="text" class="form-control" ng-model="randomPassword">
+        <span class="input-group-btn">
+          <button class="btn btn-default" type="button" ng-copy="randomPassword">复制</button>
+        </span>
+      </div>
+      <div style="margin-top: 5px;">
+        <div><input type="text" ng-model="randomPasswordLength" /></div>
+        <label><input type="checkbox" ng-model="randomPasswordSpecial" /> 包含特殊字符</label>
+      </div>
+      <button class="btn btn-default" ng-click="generatePassword()">重新生成</button>
+
+
+    </div>
+    <div role="tabpanel" class="tab-pane" id="private-key">
+      <textarea class="form-control" rows="5" ng-model="priKey"></textarea>
+      <br />
+      <button class="btn btn-primary" ng-click="savePriKey()">保存</button>
+    </div>
+  </div>
+</div>
+
+<div id="login" ng-controller="LoginCtrl" ng-if="isGuest">
+  <div class="alert alert-danger" role="alert" ng-if="error">{{error}}</div>
+  <form>
+    <div class="form-group">
+      <label for="exampleInputEmail1">用户名</label>
+      <input type="email" class="form-control" ng-model="email" id="exampleInputEmail1" placeholder="用户名">
+    </div>
+    <div class="form-group">
+      <label for="exampleInputPassword1">密码</label>
+      <input type="password" class="form-control" ng-model="password" id="exampleInputPassword1" placeholder="密码">
+    </div>
+    <div class="checkbox">
+      <label>
+        <input type="checkbox" ng-model="rememberMe"> 记住我
+      </label>
+    </div>
+    <button type="submit" class="btn btn-default" ng-click="submit()">登陆</button>
+  </form>
+</div>
+</body>
+</html>

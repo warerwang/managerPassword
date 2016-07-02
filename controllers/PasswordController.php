@@ -7,13 +7,16 @@
  */
 namespace app\controllers;
 
+use app\models\User;
 use yii;
 use app\models\Password;
 use app\components\RestController;
 
 class PasswordController extends RestController
 {
-
+    public $safeActions = [
+        'token'
+    ];
     public function actionIndex($k = '')
     {
         $model = new Password();
@@ -29,6 +32,31 @@ class PasswordController extends RestController
 
     public function actionView ($id)
     {
+
+    }
+
+    public function actionCreate ()
+    {
+        $data = json_decode(Yii::$app->request->rawBody, true);
+        $model = new Password();
+        $model->uid = Yii::$app->user->id;
+        $model->load($data, '');
+        if($model->save()){
+            return $model;
+        }else{
+
+            throw new yii\web\HttpException(500, array_values($model->firstErrors)[0]);
+        }
+    }
+
+    public function actionToken ($email, $password){
+        /** @var User $user */
+        $user = User::findOne(['email' => $email]);
+        if(empty($user) || !$user->validatePassword($password)){
+            throw new yii\web\NotFoundHttpException('用户不存在或密码错误.');
+        }else{
+            return $user->token;
+        }
 
     }
 }

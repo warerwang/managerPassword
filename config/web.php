@@ -44,6 +44,13 @@ $config = [
             'enablePrettyUrl' => true,
             'showScriptName' => YII_DEBUG,
             'rules' => [
+                [
+                    'class' => \yii\rest\UrlRule::className(),
+                    'controller'    => ['password' => 'password'],
+                    'extraPatterns' => [
+                        'GET token'       => 'token',
+                    ]
+                ],
             ],
         ],
         'i18n' => [

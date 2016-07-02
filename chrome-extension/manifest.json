@@ -1,0 +1,18 @@
+{
+  "manifest_version": 2,
+
+  "name": "Password Manager",
+  "description": "Manage your passwords safely and easily.",
+  "version": "1.0",
+
+  "browser_action": {
+    "default_icon": "icon.png",
+    "default_popup": "index.html",
+    "default_title" : "管理你的密码"
+  },
+  "permissions": [
+    "activeTab",
+    "storage",
+    "https://ajax.googleapis.com/"
+  ]
+}
