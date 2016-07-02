@@ -67,9 +67,11 @@ class Password extends PasswordBase
     public function beforeValidate ()
     {
         if(parent::beforeValidate()){
-            /** @var User $user */
-            $user = $this->user;
-            $this->encryptPassword = Yii::$app->password->EncryptWithPublicKey($this->password, $user->publicKey);
+            if($this->password){
+                /** @var User $user */
+                $user = $this->user;
+                $this->encryptPassword = Yii::$app->password->EncryptWithPublicKey($this->password, $user->publicKey);
+            }
             return true;
         }
         return false;

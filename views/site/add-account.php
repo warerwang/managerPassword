@@ -10,11 +10,12 @@ use yii\helpers\Html;
 
 ?>
 
+
 <?php $form = ActiveForm::begin([
     'enableClientValidation'=> false,
     'method' => 'POST'
 ]); ?>
-
+<?= $form->errorSummary($model); ?>
 <?= $form->field($model, 'name') ?>
 <?= $form->field($model, 'password') ?>
 <?= $form->field($model, 'webLink') ?>
@@ -23,5 +24,6 @@ use yii\helpers\Html;
 
 <div class="form-group">
     <?= Html::submitButton('保存', ['class' => 'btn btn-success']) ?>
+    <?= Html::submitButton('保存并返回', ['class' => 'btn btn-success', 'value' => '/site/manager', 'name' => 'return']) ?>
 </div>
 <?php ActiveForm::end(); ?>

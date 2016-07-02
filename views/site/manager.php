@@ -42,10 +42,11 @@ use yii\helpers\Html;
             'description',
             [
                 'label' => '',
-                'options' => ['style' => "width:120px;"],
+                'options' => ['style' => "width:160px;"],
                 'format' => 'raw',
                 'value' => function($model){
                     return Html::a('显示密码', ['site/decrypt', 'id' => $model->id]) . ' ' .
+                    Html::a('修改', ['site/edit-account', 'id' => $model->id]) . ' ' .
                     Html::a('删除', ['site/delete-account', 'id' => $model->id]);
 
                 }

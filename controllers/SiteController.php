@@ -66,11 +66,12 @@ class SiteController extends Controller
         return $this->render('manager', ['dataProvider' => $dataProvider, 'model' => $model ]);
     }
 
-    public function actionAddAccount ($return = null)
+    public function actionAddAccount ()
     {
         $model = new Password();
         $model->uid = Yii::$app->user->id;
         if(Yii::$app->request->isPost){
+            $return = Yii::$app->request->post('return');
             $model->load(Yii::$app->request->post());
             if($model->save()){
                 if($return){
@@ -78,9 +79,25 @@ class SiteController extends Controller
                 }else{
                     $model = new Password();
                 }
-            }else{
-                var_dump($model->errors);
-                die;
+            }
+        }
+        return $this->render('add-account', ['model' => $model]);
+    }
+
+    public function actionEditAccount ($id)
+    {
+        /** @var Password $model */
+        $model = Password::findOne($id);
+        if($model->uid != Yii::$app->user->id){
+            throw new ForbiddenHttpException();
+        }
+        if(Yii::$app->request->isPost){
+            $return = Yii::$app->request->post('return');
+            $model->load(Yii::$app->request->post());
+            if($model->save()){
+                if($return){
+                    return $this->redirect($return);
+                }
             }
         }
         return $this->render('add-account', ['model' => $model]);
