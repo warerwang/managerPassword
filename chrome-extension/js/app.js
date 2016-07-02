@@ -36,7 +36,7 @@ angular.module('chrome', ['LocalStorageModule', 'ng-clipboard'])
     };
     $scope.search = function(){
       var token = $rootScope.token;
-      var url = 'http://localhost:8080/password?access-token=' + token + '&k=' + $scope.keyword;
+      var url = 'http://password.warphp.com/password?access-token=' + token + '&k=' + $scope.keyword;
       $http.get(url).then(function(res){
         $scope.accounts = res.data;
       },function(data){
@@ -88,7 +88,7 @@ angular.module('chrome', ['LocalStorageModule', 'ng-clipboard'])
     $scope.saveAccount = function(){
       console.log($scope.newAccount);
       var token = $rootScope.token;
-      var url = 'http://localhost:8080/password?access-token=' + token;
+      var url = 'http://password.warphp.com/password?access-token=' + token;
       $http.post(url, $scope.newAccount).then(function(res){
         $scope.newAccount = {}
       },function(res){
@@ -103,7 +103,7 @@ angular.module('chrome', ['LocalStorageModule', 'ng-clipboard'])
       console.log($scope.rememberMe);
       var password = $scope.password;
       var email = $scope.email;
-      var url = 'http://localhost:8080/password/token?password=' + password + '&email=' + email;
+      var url = 'http://password.warphp.com/password/token?password=' + password + '&email=' + email;
       $http.get(url).then(function(res){
         if($scope.rememberMe){
           localStorageService.set('password-token', res.data);
