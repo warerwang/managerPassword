@@ -33,24 +33,19 @@ AppAsset::register($this);
             'class' => 'navbar-inverse navbar-fixed-top',
         ],
     ]);
+    $items = [
+        ['label' => '首页', 'url' => ['/site/index']],
+    ];
+    if(Yii::$app->user->isGuest){
+        $items[] = ['label' => '登陆', 'url' => ['/site/login']];
+        $items[] = ['label' => '注册', 'url' => ['/site/register']];
+    }else{
+        $items[] = ['label' => '管理密码', 'url' => ['/site/manager']];
+        $items[] = ['label' => '退出 (' . Yii::$app->user->identity->email . ')', 'url' => ['/site/logout']];
+    }
     echo Nav::widget([
         'options' => ['class' => 'navbar-nav navbar-right'],
-        'items' => [
-            ['label' => '首页', 'url' => ['/site/index']],
-            ['label' => '管理密码', 'url' => ['/site/manager']],
-            Yii::$app->user->isGuest ? (
-                ['label' => '登陆', 'url' => ['/site/login']]
-            ) : (
-                '<li>'
-                . Html::beginForm(['/site/logout'], 'post', ['class' => 'navbar-form'])
-                . Html::submitButton(
-                    '退出 (' . Yii::$app->user->identity->email . ')',
-                    ['class' => 'btn btn-link']
-                )
-                . Html::endForm()
-                . '</li>'
-            )
-        ],
+        'items' => $items,
     ]);
     NavBar::end();
     ?>
