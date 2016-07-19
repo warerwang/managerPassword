@@ -24,8 +24,6 @@ use yii\helpers\Html;
     <div class="form-group">
         <?= Html::submitButton('Apply', ['class' => 'btn btn-success']) ?>
         <?= Html::a('新增账号', ['site/add-account']); ?>
-        <?= Html::a('生成私钥', ['site/generate-private-key']); ?>
-        <?= Html::a('生成公钥', ['site/generate-public-key']); ?>
     </div>
     <?php ActiveForm::end(); ?>
 </div>

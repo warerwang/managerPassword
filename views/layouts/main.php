@@ -41,7 +41,15 @@ AppAsset::register($this);
         $items[] = ['label' => '注册', 'url' => ['/site/register']];
     }else{
         $items[] = ['label' => '管理密码', 'url' => ['/site/manager']];
-        $items[] = ['label' => '退出 (' . Yii::$app->user->identity->email . ')', 'url' => ['/site/logout']];
+        $items[] = [
+            'label' => Yii::$app->user->identity->email,
+            'items' => [
+                ['label' => '保存公钥', 'url' => ['/site/save-public-key']],
+                ['label' => '查看私钥', 'url' => ['/site/save-private-key']],
+                ['label' => '退出', 'url' => ['/site/logout']],
+            ],
+
+        ];
     }
     echo Nav::widget([
         'options' => ['class' => 'navbar-nav navbar-right'],

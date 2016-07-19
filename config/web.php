@@ -41,8 +41,8 @@ $config = [
         ],
         'db' => require(__DIR__ . '/db.php'),
         'urlManager' => [
-            'enablePrettyUrl' => true,
-            'showScriptName' => YII_DEBUG,
+            'enablePrettyUrl' => !YII_DEBUG,
+            'showScriptName' => false,
             'rules' => [
                 [
                     'class' => \yii\rest\UrlRule::className(),

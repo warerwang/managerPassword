@@ -68,6 +68,9 @@ class SiteController extends Controller
 
     public function actionAddAccount ()
     {
+        if(empty(Yii::$app->user->identity->publicKey)){
+            return $this->redirect(['site/save-public-key']);
+        }
         $model = new Password();
         $model->uid = Yii::$app->user->id;
         if(Yii::$app->request->isPost){
@@ -149,7 +152,7 @@ class SiteController extends Controller
     {
         $password = Password::findOne($id);
         $password->delete();
-        return $this->goBack(['site/manager']);
+        return $this->redirect(['site/manager']);
     }
 
     public function actionLogin()
@@ -172,5 +175,24 @@ class SiteController extends Controller
         Yii::$app->user->logout();
 
         return $this->goHome();
+    }
+
+    public function actionSavePublicKey($key = null)
+    {
+        /** @var \app\models\User $user */
+        $user = Yii::$app->user->identity;
+        $key && $user->publicKey = $key;
+        if(Yii::$app->request->isPost){
+            $data = Yii::$app->request->post($user->formName());
+            $user->publicKey = $data['publicKey'];
+            $user->save();
+        }
+        return $this->render('save-public-key', ['user' => $user]);
+    }
+
+    public function actionSavePrivateKey()
+    {
+
+        return $this->render('save-private-key');
     }
 }
