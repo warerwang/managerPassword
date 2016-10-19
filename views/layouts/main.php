@@ -27,26 +27,26 @@ AppAsset::register($this);
 <div class="wrap">
     <?php
     NavBar::begin([
-        'brandLabel' => '密码管理',
+        'brandLabel' => Yii::t('view', 'Password Manager'),
         'brandUrl' => Yii::$app->homeUrl,
         'options' => [
             'class' => 'navbar-inverse navbar-fixed-top',
         ],
     ]);
     $items = [
-        ['label' => '首页', 'url' => ['/site/index']],
+        ['label' => Yii::t('view', 'Home'), 'url' => ['/site/index']],
     ];
     if(Yii::$app->user->isGuest){
-        $items[] = ['label' => '登陆', 'url' => ['/site/login']];
-        $items[] = ['label' => '注册', 'url' => ['/site/register']];
+        $items[] = ['label' => Yii::t('view', 'Login'), 'url' => ['/site/login']];
+        $items[] = ['label' => Yii::t('view', 'Register'), 'url' => ['/site/register']];
     }else{
-        $items[] = ['label' => '管理密码', 'url' => ['/site/manager']];
+        $items[] = ['label' => Yii::t('view', 'Accounts'), 'url' => ['/site/manager']];
         $items[] = [
             'label' => Yii::$app->user->identity->email,
             'items' => [
-                ['label' => '保存公钥', 'url' => ['/site/save-public-key']],
-                ['label' => '查看私钥', 'url' => ['/site/save-private-key']],
-                ['label' => '退出', 'url' => ['/site/logout']],
+                ['label' =>  Yii::t('view', 'Public Key'), 'url' => ['/site/save-public-key']],
+                ['label' =>  Yii::t('view', 'Private Key'), 'url' => ['/site/save-private-key']],
+                ['label' =>  Yii::t('view', 'Log out'), 'url' => ['/site/logout']],
             ],
 
         ];

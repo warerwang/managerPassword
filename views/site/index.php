@@ -2,7 +2,7 @@
 
 /* @var $this yii\web\View */
 
-$this->title = '密码管理';
+$this->title = Yii::t('view', 'Password Manager');
 ?>
 <div class="site-index">
 

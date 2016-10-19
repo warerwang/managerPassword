@@ -23,7 +23,7 @@ use yii\helpers\Html;
 <?= $form->field($model, 'description') ?>
 
 <div class="form-group">
-    <?= Html::submitButton('保存', ['class' => 'btn btn-success']) ?>
-    <?= Html::submitButton('保存并返回', ['class' => 'btn btn-success', 'value' => '/site/manager', 'name' => 'return']) ?>
+    <?= Html::submitButton(Yii::t('view', 'Save'), ['class' => 'btn btn-success']) ?>
+    <?= Html::submitButton(Yii::t('view', 'Save And Return'), ['class' => 'btn btn-success', 'value' => '/site/manager', 'name' => 'return']) ?>
 </div>
 <?php ActiveForm::end(); ?>

@@ -12,7 +12,7 @@ use yii\bootstrap\ActiveForm;
     'options' => ['enctype' => 'multipart/form-data']
 ]); ?>
 上传私钥文件: <input name="pkeyFile" type="file" />
-<button class="btn btn-default">显示密码</button>
+<button class="btn btn-default"><?= Yii::t('view', 'Show Password'); ?></button>
 <?php ActiveForm::end(); ?>
 <?php if($password): ?>
     <pre><?= $password; ?></pre>

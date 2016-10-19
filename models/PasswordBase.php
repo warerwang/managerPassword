@@ -51,6 +51,7 @@ class PasswordBase extends \yii\db\ActiveRecord
             'uid' => Yii::t('model', 'Uid'),
             'account' => Yii::t('model', 'Account'),
             'name' => Yii::t('model', 'Name'),
+            'password' => Yii::t('model', 'Password'),
             'encryptPassword' => Yii::t('model', 'Encrypt Password'),
             'webLink' => Yii::t('model', 'Web Link'),
             'description' => Yii::t('model', 'Description'),

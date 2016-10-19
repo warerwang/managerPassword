@@ -22,8 +22,8 @@ use yii\helpers\Html;
     <?= $form->field($model, 'account') ?>
 
     <div class="form-group">
-        <?= Html::submitButton('Apply', ['class' => 'btn btn-success']) ?>
-        <?= Html::a('新增账号', ['site/add-account']); ?>
+        <?= Html::submitButton(Yii::t('view', 'Apply'), ['class' => 'btn btn-success']) ?>
+        <?= Html::a(Yii::t('view', 'New Account'), ['site/add-account']); ?>
     </div>
     <?php ActiveForm::end(); ?>
 </div>
@@ -43,9 +43,9 @@ use yii\helpers\Html;
                 'options' => ['style' => "width:160px;"],
                 'format' => 'raw',
                 'value' => function($model){
-                    return Html::a('显示密码', ['site/decrypt', 'id' => $model->id]) . ' ' .
-                    Html::a('修改', ['site/edit-account', 'id' => $model->id]) . ' ' .
-                    Html::a('删除', ['site/delete-account', 'id' => $model->id]);
+                    return Html::a(Yii::t('view', 'Show Password'), ['site/decrypt', 'id' => $model->id]) . ' ' .
+                    Html::a(Yii::t('view', 'Edit'), ['site/edit-account', 'id' => $model->id]) . ' ' .
+                    Html::a(Yii::t('view', 'Remove'), ['site/delete-account', 'id' => $model->id]);
 
                 }
             ],

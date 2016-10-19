@@ -53,7 +53,7 @@ class PasswordController extends RestController
         /** @var User $user */
         $user = User::findOne(['email' => $email]);
         if(empty($user) || !$user->validatePassword($password)){
-            throw new yii\web\NotFoundHttpException('用户不存在或密码错误.');
+            throw new yii\web\NotFoundHttpException(Yii::t('controller', 'User is not exist or password incorrect.'));
         }else{
             return $user->token;
         }

@@ -24,10 +24,10 @@ use yii\web\View;
 
         <p class="help-block help-block-error"></p>
     </div>
-    <button class="btn btn-primary" type="submit" id="save-key">保存</button>
+    <button class="btn btn-primary" type="submit" id="save-key"><?= Yii::t('view', 'Save') ?></button>
 </form>
 
-<?= Html::a('生成私钥', ['site/generate-private-key']); ?>
+<?= Html::a(Yii::t('view', 'Generate'), ['site/generate-private-key']); ?>
 
 <?php
 $this->registerJs(<<<EOF

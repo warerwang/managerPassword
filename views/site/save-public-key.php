@@ -15,7 +15,7 @@ use yii\helpers\Html;
 ?>
 <?php $form = ActiveForm::begin([]); ?>
 <?= $form->field($user, 'publicKey')->textarea(['rows' => 10, 'class' => 'pkey form-control']); ?>
-<button class="btn btn-primary" type="submit">保存</button>
+<button class="btn btn-primary" type="submit"><?= Yii::t('view', 'Save'); ?></button>
 <?php ActiveForm::end(); ?>
 
-<?= Html::a('生成公钥', ['site/generate-public-key']); ?>
+<?= Html::a(Yii::t('view', 'Generate'), ['site/generate-public-key']); ?>

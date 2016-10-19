@@ -14,10 +14,10 @@ use yii\web\View;
 
 <pre><?= $pkey; ?></pre>
 
-<a href="<?= \yii\helpers\Url::to(['site/download-key', 'name' => 'private_key_' . date('Y_m_d') . '.pk', 'key' => $pkey]); ?>">下载文件</a>
-<a id="save-key" href="#">保存私钥</a>
+<a href="<?= \yii\helpers\Url::to(['site/download-key', 'name' => 'private_key_' . date('Y_m_d') . '.pk', 'key' => $pkey]); ?>"><?= Yii::t('view', 'Download'); ?></a>
+<a id="save-key" href="#"><?= Yii::t('view', 'Save'); ?></a>
 
-<span class="hint-block">私钥文件非常重要， 是用来解密密码的密文，和生成公钥。请妥善保管</span>
+<span class="hint-block"><?= Yii::t('view', 'The private key is VERY important. It is used to decrypt the password. Please save it careful.'); ?></span>
 
 <?php
 $pkey = base64_encode($pkey);

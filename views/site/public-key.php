@@ -9,21 +9,21 @@
 use yii\bootstrap\ActiveForm;
 
 ?>
-<h1>生成公钥</h1>
+<h1><?= Yii::t('view', 'Generate a public key'); ?></h1>
 
 <?php $form = ActiveForm::begin([
     'options' => ['enctype' => 'multipart/form-data']
 ]); ?>
-上传私钥文件: <input name="pkeyFile" type="file" />
+<?= Yii::t('view', 'Upload a private key'); ?>: <input name="pkeyFile" type="file" />
 <br />
 <textarea id="user-privatekey" class="pkey form-control" cols="100" rows="20" name="pkey"></textarea>
 <br />
-<button class="btn btn-default">生成</button>
+<button class="btn btn-default"><?= Yii::t('view', 'Generate'); ?></button>
 <?php ActiveForm::end(); ?>
 <?php if($pubKey): ?>
 <pre><?= $pubKey; ?></pre>
-<a href="<?= \yii\helpers\Url::to(['site/download-key', 'name' => 'public_key_' . date('Y-m-d') . '.pub', 'key' => $pubKey]); ?>">下载公钥</a>
-<a href="<?= \yii\helpers\Url::to(['site/save-public-key', 'key' => $pubKey]); ?>">保存公钥</a>
+<a href="<?= \yii\helpers\Url::to(['site/download-key', 'name' => 'public_key_' . date('Y-m-d') . '.pub', 'key' => $pubKey]); ?>"><?= Yii::t('view', 'Download'); ?></a>
+<a href="<?= \yii\helpers\Url::to(['site/save-public-key', 'key' => $pubKey]); ?>"><?= Yii::t('view', 'Save'); ?></a>
 <?php endif ?>
 
 <?php
