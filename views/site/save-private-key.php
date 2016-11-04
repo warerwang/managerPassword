@@ -24,16 +24,23 @@ use yii\web\View;
 
         <p class="help-block help-block-error"></p>
     </div>
-    <button class="btn btn-primary" type="submit" id="save-key"><?= Yii::t('view', 'Save') ?></button>
+    <button class="btn btn-primary" type="button" id="save-key"><?= Yii::t('view', 'Save') ?></button>
 </form>
 
 <?= Html::a(Yii::t('view', 'Generate'), ['site/generate-private-key']); ?>
 
 <?php
 $this->registerJs(<<<EOF
-    $("#user-privatekey").val(atob(localStorage.privateKey));
+    if(localStorage.privateKey){
+        try{
+            var privateKey = atob(localStorage.privateKey);
+        }catch(e){
+            console.error(e);
+        }
+        $("#user-privatekey").val(privateKey);
+    }
     $('#save-key').click(function(){
-        if(window.localStorage){
+        if(window.localStorage && window.btoa){
             localStorage.privateKey = btoa($('#user-privatekey').val());
             alert('保存公钥成功');
         }else{
